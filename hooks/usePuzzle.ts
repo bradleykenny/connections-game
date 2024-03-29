@@ -1,3 +1,4 @@
+import { getPuzzle } from "@/actions/puzzle";
 import { PUZZLE_ROW_LENGTH } from "@/config/consts";
 import { createClient } from "@/utils/supabase/client";
 import { useEffect, useMemo, useState } from "react";
@@ -7,8 +8,6 @@ interface PuzzleMap {
 }
 
 const usePuzzle = () => {
-  const supabase = createClient();
-
   const [puzzle, setPuzzle] = useState<PuzzleMap>({});
   const [guessedKeys, setGuessedKeys] = useState<string[]>([]);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
@@ -16,20 +15,13 @@ const usePuzzle = () => {
   const [guesses, setGuesses] = useState(0);
 
   useEffect(() => {
-    const getPuzzle = async () => {
-      const { data } = await supabase
-        .from("puzzles")
-        .select()
-        .order("puzzle_date", { ascending: false });
-
-      if (data) {
-        const puzzleData = data[0].data;
-        setPuzzle(puzzleData);
-      }
+    const fetchData = async () => {
+      const puzzleData = await getPuzzle();
+      setPuzzle(puzzleData);
     };
 
-    getPuzzle();
-  }, [supabase]);
+    fetchData();
+  }, []);
 
   const addToSelectedItems = (value: string) => {
     if (selectedItems.includes(value)) {
