@@ -12,7 +12,7 @@ Categories will always be more specific than "5-LETTER-WORDS," "NAMES" or "VERBS
 
 Each puzzle has exactly one solution. Watch out for words that seem to belong to multiple categories!
 
-I don't need the code, just output the question set. Only return it as an object with the keys mapping to the answers.`;
+I don't need the code, just output the question set. Only return it as an object with the keys mapping to the answers. For example: { Seasons: [ "Summer", "Winter", "Spring", "Autumn" ]}`;
 
 export default {
   PUZZLE_GENERATION,
