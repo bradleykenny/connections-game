@@ -2,7 +2,8 @@
 
 import { PUZZLE_ROW_LENGTH } from "@/config/consts";
 import usePuzzle from "@/hooks/usePuzzle";
-import GameSquare from "./GameSquare";
+import GameSquare from "@/components/GameSquare";
+import GameSquareSkeleton from "@/components/GameSquare.Skeleton";
 
 export default function GameBoard() {
   const {
@@ -12,6 +13,7 @@ export default function GameBoard() {
     selectedItems,
     addToSelectedItems,
     resetSelections,
+    showToast,
   } = usePuzzle();
 
   return (
@@ -28,14 +30,18 @@ export default function GameBoard() {
             />
           )),
         )}
-        {shuffledPuzzle.map((item) => (
-          <GameSquare
-            key={item}
-            value={item}
-            isSelected={selectedItems.includes(item)}
-            addToSelectedItems={addToSelectedItems}
-          />
-        ))}
+        {shuffledPuzzle.length > 0
+          ? shuffledPuzzle.map((item) => (
+              <GameSquare
+                key={item}
+                value={item}
+                isSelected={selectedItems.includes(item)}
+                addToSelectedItems={addToSelectedItems}
+              />
+            ))
+          : Array.from({ length: 4 * 4 }).map((_, i) => (
+              <GameSquareSkeleton key={i} />
+            ))}
       </div>
       <div className="flex justify-end gap-4 p-4">
         <button
@@ -55,6 +61,11 @@ export default function GameBoard() {
           Submit
         </button>
       </div>
+      {showToast ? (
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 rounded bg-red-800 px-4 py-2">
+          Nope! Not this time.
+        </div>
+      ) : null}
     </div>
   );
 }

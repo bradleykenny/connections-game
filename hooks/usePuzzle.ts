@@ -1,19 +1,45 @@
 import { PUZZLE_ROW_LENGTH } from "@/config/consts";
-import { useMemo, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
+import { useEffect, useMemo, useState } from "react";
 
 interface PuzzleMap {
   [key: string]: string[];
 }
 
 const usePuzzle = () => {
+  const supabase = createClient();
+
+  const [puzzle, setPuzzle] = useState<PuzzleMap>({});
+
+  useEffect(() => {
+    const getPuzzle = async () => {
+      const { data } = await supabase
+        .from("puzzles")
+        .select()
+        .order("puzzle_date", { ascending: false });
+
+      if (data) {
+        const puzzleData = data[0].data;
+        setPuzzle(puzzleData);
+      }
+    };
+
+    getPuzzle();
+  }, [supabase]);
+
   const [guessedKeys, setGuessedKeys] = useState<string[]>([]);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
+  const [showToast, setShowToast] = useState(false);
+
   const addToSelectedItems = (value: string) => {
-    if (
-      selectedItems.length >= PUZZLE_ROW_LENGTH ||
-      selectedItems.includes(value)
-    ) {
+    if (selectedItems.includes(value)) {
+      const filteredItems = selectedItems.filter((item) => item !== value);
+      setSelectedItems(filteredItems);
+      return;
+    }
+
+    if (selectedItems.length >= PUZZLE_ROW_LENGTH) {
       return;
     }
 
@@ -23,15 +49,6 @@ const usePuzzle = () => {
 
   const resetSelections = () => {
     setSelectedItems([]);
-  };
-
-  // TODO: convert to AI DB call
-  const puzzle: PuzzleMap = {
-    "Musical Instruments": ["Piano", "Violin", "Guitar", "Trumpet"],
-    "African Animals": ["Lion", "Elephant", "Giraffe", "Zebra"],
-    "Geometric Shapes": ["Circle", "Square", "Triangle", "Pentagon"],
-    "Movie Genres": ["Comedy", "Horror", "Romance", "Action"],
-    // "Planets in the Solar System": ["Earth", "Mars", "Jupiter", "Saturn"],
   };
 
   const puzzleKeys = Object.keys(puzzle);
@@ -59,6 +76,9 @@ const usePuzzle = () => {
         return true;
       }
 
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 2000);
+
       return false;
     });
   };
@@ -76,8 +96,10 @@ const usePuzzle = () => {
     return array;
   };
 
-  //   const shuffledPuzzle: string[] = shuffle(flattenedPuzzle);
-  const shuffledPuzzle = flattenedPuzzle;
+  const shuffledPuzzle: string[] = useMemo(
+    () => shuffle(flattenedPuzzle),
+    [puzzle, guessedKeys],
+  );
 
   return {
     shuffledPuzzle,
@@ -86,6 +108,7 @@ const usePuzzle = () => {
     selectedItems,
     addToSelectedItems,
     resetSelections,
+    showToast,
   };
 };
 
