@@ -17,6 +17,9 @@ export default function GameBoard() {
     guesses,
   } = usePuzzle();
 
+  const couldBeDoneLoading =
+    shuffledPuzzle.length > 0 || guessedPuzzles.length === PUZZLE_ROW_LENGTH;
+
   return (
     <div>
       <div className="flex items-center gap-4">
@@ -36,7 +39,7 @@ export default function GameBoard() {
             />
           )),
         )}
-        {shuffledPuzzle.length > 0
+        {couldBeDoneLoading
           ? shuffledPuzzle.map((item) => (
               <GameSquare
                 key={item}
