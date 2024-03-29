@@ -10,6 +10,10 @@ const usePuzzle = () => {
   const supabase = createClient();
 
   const [puzzle, setPuzzle] = useState<PuzzleMap>({});
+  const [guessedKeys, setGuessedKeys] = useState<string[]>([]);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [showToast, setShowToast] = useState(false);
+  const [guesses, setGuesses] = useState(0);
 
   useEffect(() => {
     const getPuzzle = async () => {
@@ -26,11 +30,6 @@ const usePuzzle = () => {
 
     getPuzzle();
   }, [supabase]);
-
-  const [guessedKeys, setGuessedKeys] = useState<string[]>([]);
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
-
-  const [showToast, setShowToast] = useState(false);
 
   const addToSelectedItems = (value: string) => {
     if (selectedItems.includes(value)) {
@@ -58,7 +57,9 @@ const usePuzzle = () => {
       return false;
     }
 
-    return puzzleKeys.some((key) => {
+    setGuesses(guesses + 1);
+
+    const isValid = puzzleKeys.some((key) => {
       const relatedAnswers = [];
 
       attempt.some((val) => {
@@ -76,11 +77,15 @@ const usePuzzle = () => {
         return true;
       }
 
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 2000);
-
       return false;
     });
+
+    if (!isValid) {
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 2000);
+    }
+
+    return isValid;
   };
 
   const flattenedPuzzle = puzzleKeys
@@ -109,6 +114,7 @@ const usePuzzle = () => {
     addToSelectedItems,
     resetSelections,
     showToast,
+    guesses,
   };
 };
 
