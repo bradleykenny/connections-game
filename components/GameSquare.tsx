@@ -13,7 +13,7 @@ export default function GameSquare(props: Props) {
   return (
     <div
       className={cn(
-        "flex aspect-square cursor-pointer items-center justify-center rounded bg-gray-500 text-white hover:bg-gray-600 hover:ring-2 hover:ring-gray-400 sm:h-24 sm:w-24",
+        "flex aspect-square cursor-pointer items-center justify-center rounded bg-gray-500 text-center text-white hover:bg-gray-600 hover:ring-2 hover:ring-gray-400 sm:h-24 sm:w-24",
         isSelected &&
           "bg-blue-500 text-blue-100 hover:bg-blue-600 hover:ring-blue-400",
         isGuessed &&

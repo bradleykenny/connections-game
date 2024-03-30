@@ -28,7 +28,7 @@ export default function GameBoard() {
     <div>
       <div className="flex items-center gap-2 sm:gap-4">
         <h2 className="text-2xl font-bold">
-          Connections <span className="text-gray-600">({today})</span>
+          Kennections <span className="text-gray-600">({today})</span>
         </h2>
         {Array.from({ length: guesses }).map((_, i) => (
           <div key={i} className="h-4 w-4 rounded-full bg-white" />

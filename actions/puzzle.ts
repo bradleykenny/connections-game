@@ -6,7 +6,7 @@ import { getLocaleDate } from "@/utils/date";
 import { createClient } from "@/utils/supabase/client";
 import OpenAI from "openai";
 
-export const getPuzzle = async () => {
+export const getPuzzle = async (timezone?: string) => {
   const supabase = createClient();
 
   const today = getLocaleDate();
