@@ -4,6 +4,7 @@ import { PUZZLE_ROW_LENGTH } from "@/config/consts";
 import usePuzzle from "@/hooks/usePuzzle";
 import GameSquare from "@/components/GameSquare";
 import GameSquareSkeleton from "@/components/GameSquare.Skeleton";
+import GameTile from "@/components/GameTile";
 
 export default function GameBoard() {
   const {
@@ -22,16 +23,16 @@ export default function GameBoard() {
 
   return (
     <div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 sm:gap-4">
         <h2 className="text-2xl font-bold">Connections</h2>
         {Array.from({ length: guesses }).map((_, i) => (
           <div key={i} className="h-4 w-4 rounded-full bg-white" />
         ))}
       </div>
-      <div className="mt-4 grid grid-cols-4 gap-4 rounded bg-gray-700 p-4">
+      <div className="mt-4 grid grid-cols-4 gap-2 rounded bg-gray-700 p-2 sm:gap-4 sm:p-4">
         {guessedPuzzles.map((puzzle) =>
           Object.values(puzzle).map((item) => (
-            <GameSquare
+            <GameTile
               key={item}
               value={item}
               isGuessed
@@ -52,7 +53,7 @@ export default function GameBoard() {
               <GameSquareSkeleton key={i} />
             ))}
       </div>
-      <div className="flex justify-end gap-4 p-4">
+      <div className="flex justify-center gap-4 p-4">
         <button
           className="rounded bg-gray-400 px-4 py-2 hover:bg-gray-500 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-gray-400"
           onClick={resetSelections}
