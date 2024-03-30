@@ -19,7 +19,7 @@ export default function GameBoard() {
   } = usePuzzle();
 
   const date = new Date();
-  const today = date.toISOString().split("T")[0];
+  const today = date.toLocaleDateString();
 
   const couldBeDoneLoading =
     shuffledPuzzle.length > 0 || guessedPuzzles.length === PUZZLE_ROW_LENGTH;

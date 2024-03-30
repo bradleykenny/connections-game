@@ -2,14 +2,14 @@
 
 import { COLLECTION_NAME } from "@/config/consts";
 import prompts from "@/config/prompts";
+import { getLocaleDate } from "@/utils/date";
 import { createClient } from "@/utils/supabase/client";
 import OpenAI from "openai";
 
 export const getPuzzle = async () => {
   const supabase = createClient();
 
-  const date = new Date();
-  const today = date.toISOString().split("T")[0];
+  const today = getLocaleDate();
 
   const { data } = await supabase
     .from(COLLECTION_NAME)
@@ -38,6 +38,8 @@ export const getPuzzle = async () => {
 
     if (!error) {
       return parsedPuzzle;
+    } else {
+      console.error(error);
     }
   }
 
