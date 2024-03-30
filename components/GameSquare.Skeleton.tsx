@@ -1,7 +1,7 @@
 export default function GameSquareSkeleton() {
   return (
     <div
-      className="flex h-24 w-24 animate-pulse rounded bg-gray-500"
+      className="bg-primary-200 flex h-24 w-24 animate-pulse rounded"
       key="TODO"
     ></div>
   );

@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss";
 
+const colors = require("tailwindcss/colors");
+
 const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -7,6 +9,12 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    colors: {
+      primary: colors.amber,
+      secondary: colors.blue,
+      success: colors.green,
+      ...colors,
+    },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

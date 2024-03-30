@@ -24,7 +24,7 @@ export const getPuzzle = async (timezone?: string) => {
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
   const completion = await openai.chat.completions.create({
-    messages: [{ role: "system", content: prompts.PUZZLE_GENERATION }],
+    messages: [prompts.PUZZLE_GENERATION],
     model: "gpt-3.5-turbo",
   });
 

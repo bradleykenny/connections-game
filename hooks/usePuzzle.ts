@@ -49,8 +49,6 @@ const usePuzzle = () => {
       return false;
     }
 
-    setGuesses(guesses + 1);
-
     const isValid = puzzleKeys.some((key) => {
       const relatedAnswers = [];
 
@@ -73,6 +71,7 @@ const usePuzzle = () => {
     });
 
     if (!isValid) {
+      setGuesses(guesses + 1);
       setShowToast(true);
       setTimeout(() => setShowToast(false), 2000);
     }
