@@ -24,8 +24,6 @@ export default function GameBoard() {
   const couldBeDoneLoading =
     shuffledPuzzle.length > 0 || guessedPuzzles.length === PUZZLE_ROW_LENGTH;
 
-  console.log("guessed", guessedPuzzles);
-
   return (
     <div>
       <h2 className="text-xl font-bold">

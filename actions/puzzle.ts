@@ -6,7 +6,7 @@ import { getLocaleDate } from "@/utils/date";
 import { createClient } from "@/utils/supabase/client";
 import OpenAI from "openai";
 
-const getGeneratedPuzzle = async () => {
+const getAiGeneratedPuzzle = async () => {
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
   const completion = await openai.chat.completions.create({
@@ -19,7 +19,7 @@ const getGeneratedPuzzle = async () => {
 
 export const getPuzzle = async (timezone?: string) => {
   if (process.env.ALWAYS_USE_GENERATED) {
-    const alwaysUseGeneratedPuzzle = await getGeneratedPuzzle();
+    const alwaysUseGeneratedPuzzle = await getAiGeneratedPuzzle();
 
     if (alwaysUseGeneratedPuzzle) {
       return JSON.parse(alwaysUseGeneratedPuzzle);
@@ -40,7 +40,7 @@ export const getPuzzle = async (timezone?: string) => {
     return puzzleData;
   }
 
-  const generatedPuzzle = await getGeneratedPuzzle();
+  const generatedPuzzle = await getAiGeneratedPuzzle();
 
   if (generatedPuzzle) {
     const parsedPuzzle = JSON.parse(generatedPuzzle);
