@@ -5,6 +5,7 @@ import usePuzzle from "@/hooks/usePuzzle";
 import GameSquare from "@/components/GameSquare";
 import GameSquareSkeleton from "@/components/GameSquare.Skeleton";
 import GameTile from "@/components/GameTile";
+import { cn } from "@/utils/css";
 
 export default function GameBoard() {
   const {
@@ -25,12 +26,17 @@ export default function GameBoard() {
     shuffledPuzzle.length > 0 || guessedPuzzles.length === PUZZLE_ROW_LENGTH;
 
   return (
-    <div>
+    <div className="p-2">
       <h2 className="text-xl font-bold">
         Kennections <span className="text-gray-400">({today})</span>
       </h2>
       <p>Create four groups of four!</p>
-      <div className="bg-primary-100 ring-primary-400 mt-4 grid grid-cols-4 gap-2 rounded p-2 ring-2 sm:gap-4 sm:p-4">
+      <div
+        className={cn(
+          "bg-primary-100 ring-primary-400 mt-4 grid grid-cols-4 gap-2 rounded p-2 ring-2 sm:gap-4 sm:p-4",
+          guessedPuzzles.length === 4 && "bg-success-100 ring-success-400",
+        )}
+      >
         {guessedPuzzles.map((puzzle) => {
           const key = Object.keys(puzzle)[0];
           return (
@@ -58,20 +64,20 @@ export default function GameBoard() {
       </div>
       <div className="flex justify-center gap-4 p-4">
         <button
-          className="rounded bg-gray-400 px-4 py-2 hover:bg-gray-500 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-gray-400"
+          className="rounded bg-gray-200 px-4 py-2 text-gray-700 ring-2 ring-gray-300 hover:bg-gray-300 hover:ring-gray-400 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-gray-200 disabled:hover:ring-gray-300"
           onClick={resetSelections}
           disabled={selectedItems.length === 0}
         >
           Reset
         </button>
         <button
-          className="rounded bg-gray-400 px-4 py-2 hover:bg-gray-500 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-gray-400"
+          className="rounded bg-gray-200 px-4 py-2 text-gray-700 ring-2 ring-gray-300 hover:bg-gray-300 hover:ring-gray-400 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-gray-200 disabled:hover:ring-gray-300"
           disabled
         >
           Shuffle
         </button>
         <button
-          className="bg-secondary-400 hover:bg-secondary-500 disabled:hover:bg-secondary-400 rounded px-4 py-2 disabled:cursor-not-allowed disabled:opacity-50"
+          className="bg-secondary-200 hover:bg-secondary-300 disabled:hover:bg-secondary-200 rounded px-4 py-2 text-blue-900 ring-2 ring-blue-300 hover:ring-blue-400 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:ring-blue-300"
           disabled={selectedItems.length !== PUZZLE_ROW_LENGTH}
           onClick={() => validatePuzzleAnswers(selectedItems)}
         >

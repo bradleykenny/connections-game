@@ -30,10 +30,9 @@ export const getPuzzle = async (timezone?: string) => {
     }
   }
 
-  const supabase = createClient();
-
   const today = getLocaleDate();
 
+  const supabase = createClient();
   const { data } = await supabase
     .from(COLLECTION_NAME)
     .select()
