@@ -27,7 +27,7 @@ export default function GameBoard() {
 
   return (
     <div className="p-2">
-      <h2 className="text-xl font-bold">
+      <h2 className="mb-1 text-xl font-bold">
         Kennections <span className="text-gray-400">({today})</span>
       </h2>
       <p>Create four groups of four!</p>
