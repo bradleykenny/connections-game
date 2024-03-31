@@ -12,7 +12,7 @@ const config: Config = {
     colors: {
       primary: colors.amber,
       secondary: colors.blue,
-      success: colors.green,
+      success: colors.emerald,
       ...colors,
     },
     extend: {

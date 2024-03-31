@@ -26,18 +26,14 @@ export default function GameBoard() {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold">
-        Kennections <span className="text-gray-600">({today})</span>
+      <h2 className="text-xl font-bold">
+        Kennections <span className="text-gray-400">({today})</span>
       </h2>
+      <p>Create four groups of four!</p>
       <div className="bg-primary-100 ring-primary-400 mt-4 grid grid-cols-4 gap-2 rounded p-2 ring-2 sm:gap-4 sm:p-4">
         {guessedPuzzles.map((puzzle) =>
           Object.values(puzzle).map((item) => (
-            <GameTile
-              key={item}
-              value={item}
-              isGuessed
-              addToSelectedItems={addToSelectedItems}
-            />
+            <GameTile key={item} value={item} isGuessed />
           )),
         )}
         {couldBeDoneLoading

@@ -4,7 +4,7 @@ interface Props {
   isSelected?: boolean;
   isGuessed?: boolean;
   value: string;
-  addToSelectedItems: (value: string) => void;
+  addToSelectedItems?: (value: string) => void;
 }
 
 export default function GameSquare(props: Props) {
@@ -13,14 +13,14 @@ export default function GameSquare(props: Props) {
   return (
     <div
       className={cn(
-        "bg-primary-500 hover:bg-primary-600 hover:ring-primary-400 flex aspect-square cursor-pointer items-center justify-center rounded text-white hover:ring-2 sm:h-24 sm:w-24",
+        "bg-primary-200 ring-primary-300 text-primary-900 hover:bg-primary-300 hover:ring-primary-400 flex aspect-square cursor-pointer items-center justify-center rounded bg-gradient-to-br text-center ring-2 sm:h-24 sm:w-24",
         isSelected &&
-          "bg-blue-500 text-blue-100 hover:bg-blue-600 hover:ring-blue-400",
+          "bg-secondary-200 ring-secondary-300 text-secondary-900 hover:bg-secondary-300 hover:ring-secondary-400",
         isGuessed &&
-          "bg-green-500 text-green-100 hover:bg-green-600 hover:ring-green-400",
+          "bg-success-200 ring-success-300 text-success-900 hover:bg-success-300 hover:ring-success-400 cursor-not-allowed",
       )}
       key="TODO"
-      onClick={() => addToSelectedItems(value)}
+      onClick={() => addToSelectedItems?.(value)}
     >
       {value}
     </div>
