@@ -6,7 +6,26 @@ import { getLocaleDate } from "@/utils/date";
 import { createClient } from "@/utils/supabase/client";
 import OpenAI from "openai";
 
+const getGeneratedPuzzle = async () => {
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+  const completion = await openai.chat.completions.create({
+    messages: [prompts.PUZZLE_GENERATION],
+    model: "gpt-3.5-turbo",
+  });
+
+  return completion.choices[0].message.content;
+};
+
 export const getPuzzle = async (timezone?: string) => {
+  if (process.env.ALWAYS_USE_GENERATED) {
+    const alwaysUseGeneratedPuzzle = await getGeneratedPuzzle();
+
+    if (alwaysUseGeneratedPuzzle) {
+      return JSON.parse(alwaysUseGeneratedPuzzle);
+    }
+  }
+
   const supabase = createClient();
 
   const today = getLocaleDate();
@@ -21,14 +40,8 @@ export const getPuzzle = async (timezone?: string) => {
     return puzzleData;
   }
 
-  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  const generatedPuzzle = await getGeneratedPuzzle();
 
-  const completion = await openai.chat.completions.create({
-    messages: [prompts.PUZZLE_GENERATION],
-    model: "gpt-3.5-turbo",
-  });
-
-  const generatedPuzzle = completion.choices[0].message.content;
   if (generatedPuzzle) {
     const parsedPuzzle = JSON.parse(generatedPuzzle);
     const { error } = await supabase.from(COLLECTION_NAME).insert({
