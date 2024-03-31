@@ -24,6 +24,8 @@ export default function GameBoard() {
   const couldBeDoneLoading =
     shuffledPuzzle.length > 0 || guessedPuzzles.length === PUZZLE_ROW_LENGTH;
 
+  console.log("guessed", guessedPuzzles);
+
   return (
     <div>
       <h2 className="text-xl font-bold">
@@ -31,11 +33,12 @@ export default function GameBoard() {
       </h2>
       <p>Create four groups of four!</p>
       <div className="bg-primary-100 ring-primary-400 mt-4 grid grid-cols-4 gap-2 rounded p-2 ring-2 sm:gap-4 sm:p-4">
-        {guessedPuzzles.map((puzzle) =>
-          Object.values(puzzle).map((item) => (
-            <GameTile key={item} value={item} isGuessed />
-          )),
-        )}
+        {guessedPuzzles.map((puzzle) => {
+          const key = Object.keys(puzzle)[0];
+          return (
+            <GameTile key={key} values={puzzle[key]} title={key} isGuessed />
+          );
+        })}
         {couldBeDoneLoading
           ? shuffledPuzzle.map((item) => (
               <GameSquare

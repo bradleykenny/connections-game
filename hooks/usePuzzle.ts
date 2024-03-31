@@ -82,7 +82,8 @@ const usePuzzle = () => {
   const flattenedPuzzle = puzzleKeys
     .filter((key) => !guessedKeys.includes(key))
     .flatMap((key) => puzzle[key]);
-  const guessedPuzzles = guessedKeys.map((key) => puzzle[key]);
+
+  const guessedPuzzles = guessedKeys.map((key) => ({ [key]: puzzle[key] }));
 
   const shuffle = (array: string[]) => {
     for (let i = array.length - 1; i > 0; i--) {
