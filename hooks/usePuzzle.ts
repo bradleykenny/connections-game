@@ -1,6 +1,5 @@
 import { getPuzzle } from "@/actions/puzzle";
 import { PUZZLE_ROW_LENGTH } from "@/config/consts";
-import { createClient } from "@/utils/supabase/client";
 import { useEffect, useMemo, useState } from "react";
 
 interface PuzzleMap {

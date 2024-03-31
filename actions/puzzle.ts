@@ -7,14 +7,18 @@ import { createClient } from "@/utils/supabase/client";
 import OpenAI from "openai";
 
 const getAiGeneratedPuzzle = async () => {
-  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  try {
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-  const completion = await openai.chat.completions.create({
-    messages: [prompts.PUZZLE_GENERATION],
-    model: "gpt-3.5-turbo",
-  });
+    const completion = await openai.chat.completions.create({
+      messages: [prompts.PUZZLE_GENERATION],
+      model: "gpt-3.5-turbo",
+    });
 
-  return completion.choices[0].message.content;
+    return completion.choices[0].message.content;
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export const getPuzzle = async (timezone?: string) => {
