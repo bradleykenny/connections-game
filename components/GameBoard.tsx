@@ -1,11 +1,14 @@
 "use client";
 
-import { PUZZLE_ROW_LENGTH } from "@/config/consts";
+import { MAX_NUMBER_OF_GUESSES, PUZZLE_ROW_LENGTH } from "@/config/consts";
 import usePuzzle from "@/hooks/usePuzzle";
 import GameSquare from "@/components/GameSquare";
 import GameSquareSkeleton from "@/components/GameSquare.Skeleton";
 import GameTile from "@/components/GameTile";
 import { cn } from "@/utils/css";
+import { DateTime } from "luxon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWarning } from "@fortawesome/free-solid-svg-icons";
 
 export default function GameBoard() {
   const {
@@ -19,8 +22,8 @@ export default function GameBoard() {
     guesses,
   } = usePuzzle();
 
-  const date = new Date();
-  const today = date.toLocaleDateString();
+  const date = DateTime.now();
+  const today = date.toFormat("DDD");
 
   const couldBeDoneLoading =
     shuffledPuzzle.length > 0 || guessedPuzzles.length === PUZZLE_ROW_LENGTH;
@@ -56,10 +59,19 @@ export default function GameBoard() {
               <GameSquareSkeleton key={i} />
             ))}
       </div>
-      <div className="ml-4 mt-4 flex items-center gap-4">
-        Attempts:{" "}
+      <div className="mb-2 ml-4 mt-6 flex items-center gap-4">
+        Attempts remaining:{" "}
         {Array.from({ length: guesses }).map((_, i) => (
-          <div key={i} className="bg-primary-800 h-4 w-4 rounded-full" />
+          <div
+            key={i}
+            className="bg-primary-400 ring-primary-400 h-3 w-3 rounded-full ring-2"
+          />
+        ))}
+        {Array.from({ length: MAX_NUMBER_OF_GUESSES - guesses }).map((_, i) => (
+          <div
+            key={i}
+            className="ring-primary-400 h-3 w-3 rounded-full ring-2"
+          />
         ))}
       </div>
       <div className="flex justify-center gap-4 p-4">
@@ -85,7 +97,8 @@ export default function GameBoard() {
         </button>
       </div>
       {showToast ? (
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 rounded bg-red-800 px-4 py-2">
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 rounded bg-red-200 px-4 py-2 text-red-800">
+          <FontAwesomeIcon icon={faWarning} className="mr-2" />
           Nope! Not this time.
         </div>
       ) : null}

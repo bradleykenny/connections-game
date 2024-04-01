@@ -1,21 +1,28 @@
 import { getPuzzle } from "@/actions/puzzle";
-import { PUZZLE_ROW_LENGTH } from "@/config/consts";
+import { MAX_NUMBER_OF_GUESSES, PUZZLE_ROW_LENGTH } from "@/config/consts";
+import { DateTime } from "luxon";
 import { useEffect, useMemo, useState } from "react";
 
 interface PuzzleMap {
   [key: string]: string[];
 }
 
+type GameState = "IN_PROGRESS" | "LOST" | "WON";
+
 const usePuzzle = () => {
   const [puzzle, setPuzzle] = useState<PuzzleMap>({});
   const [guessedKeys, setGuessedKeys] = useState<string[]>([]);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [showToast, setShowToast] = useState(false);
-  const [guesses, setGuesses] = useState(0);
+  const [guesses, setGuesses] = useState(MAX_NUMBER_OF_GUESSES);
+
+  const [gameState, setGameState] = useState<GameState>("IN_PROGRESS");
 
   useEffect(() => {
     const fetchData = async () => {
-      const puzzleData = await getPuzzle();
+      const { locale } = DateTime.now();
+      const puzzleData = await getPuzzle(locale);
+
       setPuzzle(puzzleData);
     };
 
@@ -70,7 +77,7 @@ const usePuzzle = () => {
     });
 
     if (!isValid) {
-      setGuesses(guesses + 1);
+      setGuesses(guesses - 1);
       setShowToast(true);
       setTimeout(() => setShowToast(false), 2000);
     }

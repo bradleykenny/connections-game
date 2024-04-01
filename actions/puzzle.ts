@@ -2,7 +2,7 @@
 
 import { COLLECTION_NAME } from "@/config/consts";
 import prompts from "@/config/prompts";
-import { getLocaleDate } from "@/utils/date";
+import { getLocaleDate, getTodayDate } from "@/utils/date";
 import { createClient } from "@/utils/supabase/client";
 import OpenAI from "openai";
 
@@ -30,7 +30,7 @@ export const getPuzzle = async (timezone?: string) => {
     }
   }
 
-  const today = getLocaleDate();
+  const today = getTodayDate(timezone);
 
   const supabase = createClient();
   const { data } = await supabase

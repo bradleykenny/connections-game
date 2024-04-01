@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 export const getLocaleDate = () => {
   const date = new Date();
   const year = date.getFullYear();
@@ -6,4 +8,10 @@ export const getLocaleDate = () => {
   const formattedDate = `${year}-${month}-${day}`;
 
   return formattedDate;
+};
+
+export const getTodayDate = (timezone?: string) => {
+  const date = DateTime.now().setZone(timezone);
+
+  return date.toFormat("yyyy-MM-dd");
 };
