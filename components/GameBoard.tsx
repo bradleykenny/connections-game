@@ -36,7 +36,7 @@ export default function GameBoard() {
       <p>Create four groups of four!</p>
       <div
         className={cn(
-          "bg-primary-100 ring-primary-400 mt-4 grid grid-cols-4 gap-2 rounded p-2 ring-2 sm:gap-4 sm:p-4",
+          "mt-4 grid grid-cols-4 gap-2 rounded bg-primary-100 p-2  sm:gap-4 sm:p-4",
           guessedPuzzles.length === 4 && "bg-success-100 ring-success-400",
         )}
       >
@@ -64,13 +64,13 @@ export default function GameBoard() {
         {Array.from({ length: guesses }).map((_, i) => (
           <div
             key={i}
-            className="bg-primary-400 ring-primary-400 h-3 w-3 rounded-full ring-2"
+            className="h-3 w-3 rounded-full bg-primary-400 ring-2 ring-primary-400"
           />
         ))}
         {Array.from({ length: MAX_NUMBER_OF_GUESSES - guesses }).map((_, i) => (
           <div
             key={i}
-            className="ring-primary-400 h-3 w-3 rounded-full ring-2"
+            className="h-3 w-3 rounded-full ring-2 ring-primary-400"
           />
         ))}
       </div>
@@ -89,7 +89,7 @@ export default function GameBoard() {
           Shuffle
         </button>
         <button
-          className="bg-secondary-200 hover:bg-secondary-300 disabled:hover:bg-secondary-200 rounded px-4 py-2 text-blue-900 ring-2 ring-blue-300 hover:ring-blue-400 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:ring-blue-300"
+          className="rounded bg-secondary-200 px-4 py-2 text-blue-900 ring-2 ring-blue-300 hover:bg-secondary-300 hover:ring-blue-400 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-secondary-200 disabled:hover:ring-blue-300"
           disabled={selectedItems.length !== PUZZLE_ROW_LENGTH}
           onClick={() => validatePuzzleAnswers(selectedItems)}
         >

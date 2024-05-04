@@ -11,9 +11,16 @@ const getAiGeneratedPuzzle = async () => {
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
     const completion = await openai.chat.completions.create({
-      messages: [prompts.PUZZLE_GENERATION],
+      messages: [prompts.PUZZLE_GENERATION_THREE],
       model: "gpt-3.5-turbo",
+      temperature: 1,
+      max_tokens: 300,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
     });
+
+    console.log(completion.choices);
 
     return completion.choices[0].message.content;
   } catch (err) {
